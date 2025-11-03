@@ -1,4 +1,5 @@
 import React from "react";
+import Layout from "./Layout";
 
 const newsData = [
     {
@@ -69,53 +70,55 @@ const newsData = [
 
 export default function NewsSection({ showTitle = true }) {
     return (
-        <section className="w-full bg-base-100 py-12">
-            {/* Tiêu đề chính */}
-            {showTitle && <div className="text-center px-4 md:px-8 mb-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary uppercase">
-                    TIN TỨC – SỰ KIỆN
-                </h2>
-                <p className="text-base-content mt-4 max-w-3xl mx-auto leading-relaxed">
-                    Cập nhật tin tức mới nhất từ DUYTAN. Khám phá những thông tin về công ty,
-                    xu hướng ngành, cũng như các câu chuyện đổi mới, phát triển bền vững
-                    và tác động tích cực đến cộng đồng tại Việt Nam và khu vực ASEAN.
-                </p>
-            </div>}
+        <Layout>
+            <section className="w-full bg-base-100 py-12">
+                {/* Tiêu đề chính */}
+                {showTitle && <div className="text-center px-4 md:px-8 mb-10">
+                    <h2 className="text-3xl md:text-4xl font-bold text-primary uppercase">
+                        TIN TỨC – SỰ KIỆN
+                    </h2>
+                    <p className="text-base-content mt-4 max-w-3xl mx-auto leading-relaxed">
+                        Cập nhật tin tức mới nhất từ DUYTAN. Khám phá những thông tin về công ty,
+                        xu hướng ngành, cũng như các câu chuyện đổi mới, phát triển bền vững
+                        và tác động tích cực đến cộng đồng tại Việt Nam và khu vực ASEAN.
+                    </p>
+                </div>}
 
-            {/* Lưới tin tức */}
-            <div className="w-full px-4 md:px-8">
-                {showTitle && <h3 className="text-2xl font-bold text-primary mb-6">TIN TỨC</h3>}
+                {/* Lưới tin tức */}
+                <div className="w-full px-4 md:px-8">
+                    {showTitle && <h3 className="text-2xl font-bold text-primary mb-6">TIN TỨC</h3>}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                    {newsData.map((item, index) => (
-                        <div
-                            key={index}
-                            className="group card bg-base-100 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl cursor-pointer"
-                        >
-                            <div className="relative">
-                                <img
-                                    src={item.image}
-                                    alt={item.title}
-                                    className="w-full h-56 md:h-64 object-cover object-center rounded-lg"
-                                />
-                                <div className="absolute top-10 left-[-20px] z-10 bg-white text-primary font-semibold text-center px-3 py-1 rounded-md shadow group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                                    <p className="text-sm leading-tight">{item.date}</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                        {newsData.map((item, index) => (
+                            <div
+                                key={index}
+                                className="group card bg-base-100 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl cursor-pointer"
+                            >
+                                <div className="relative">
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="w-full h-56 md:h-64 object-cover object-center rounded-lg"
+                                    />
+                                    <div className="absolute top-10 left-[-20px] z-10 bg-white text-primary font-semibold text-center px-3 py-1 rounded-md shadow group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                                        <p className="text-sm leading-tight">{item.date}</p>
+                                    </div>
+                                </div>
+
+                                <div className="card-body p-5">
+                                    <h4 className="text-base md:text-lg font-bold text-base-content group-hover:text-primary transition-colors duration-300 line-clamp-2">
+                                        {item.title}
+                                    </h4>
+                                    <p className="text-sm text-base-content mt-2 line-clamp-2">
+                                        {item.description}
+                                    </p>
                                 </div>
                             </div>
+                        ))}
+                    </div>
 
-                            <div className="card-body p-5">
-                                <h4 className="text-base md:text-lg font-bold text-base-content group-hover:text-primary transition-colors duration-300 line-clamp-2">
-                                    {item.title}
-                                </h4>
-                                <p className="text-sm text-base-content mt-2 line-clamp-2">
-                                    {item.description}
-                                </p>
-                            </div>
-                        </div>
-                    ))}
                 </div>
-
-            </div>
-        </section>
+            </section>
+        </Layout>
     );
 }

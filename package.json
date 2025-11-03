@@ -9,13 +9,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@balkangraph/orgchart.js": "^8.21.17",
+    "clsx": "^2.1.1",
+    "dagre": "^0.8.5",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.546.0",
     "react": "^18.3.1",
+    "react-d3-tree": "^3.6.6",
     "react-dom": "^18.3.1",
+    "react-organizational-chart": "^2.2.1",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^7.9.4",
-    "react-slider": "^2.0.6"
+    "react-slider": "^2.0.6",
+    "reactflow": "^11.11.4",
+    "recharts": "^3.3.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",

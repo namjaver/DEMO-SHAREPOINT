@@ -1,21 +1,22 @@
 import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import DTH from "./pages/DTH";
 import DTG from "./pages/DTG";
-import Home from "./pages/home";
 import NewsSection from "./components/NewsSelection";
+import ReportFullView from "./pages/ReportFullView";
+import MasterData from "./pages/MasterData";
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-base-200">
-        {/* 🔹 Header */}
-        <Header />
-
-        <main className="flex pt-[80px]">
+      <div className="min-h-screen">
+        <main className="flex">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/DTH/DUYTAN-RPT" element={<DTG />} />
+            <Route path="/" element={<DTG />} />
+            <Route path="/DTH/DUYTAN-RPT" element={<DTH />} />
             <Route path="/news" element={<NewsSection />} />
+            <Route path="/report-view" element={<ReportFullView />} />
+            <Route path="/DTH/DUYTAN-MASTER" element={<MasterData />} />
             {/* <Route path="/about" element={<About />} /> */}
             {/* <Route path="/contact" element={<Contact />} /> */}
           </Routes>
