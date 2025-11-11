@@ -9,7 +9,7 @@ import clsx from "clsx";
 // 🧱 DỮ LIỆU CẤU HÌNH
 // ------------------------------
 const COMMON_SUB_ITEMS = [
-  { label: "Báo cáo & Dự án", suffix: "RPT" },
+  { label: "Báo cáo", suffix: "RPT" },
   { label: "Master Data", suffix: "MASTER" },
 ];
 
@@ -139,7 +139,7 @@ const Header = () => {
     >
       <div
         className={clsx(
-          "flex items-center justify-between w-full transition-all duration-500 px-3 sm:px-6 md:px-10 lg:px-14 xl:px-20 2xl:px-24",
+          "flex items-center justify-between w-full max-w-[1600px] mx-auto transition-all duration-500 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16",
           isScrolled ? "py-3" : "py-5"
         )}
       >
@@ -148,11 +148,7 @@ const Header = () => {
           <img
             src={LOGO_DUYTAN_GROUP}
             alt="Logo Duy Tân Group"
-            className="object-contain transition-all duration-500"
-            style={{
-              height: "clamp(28px, 2.5vw, 42px)", // auto scale giữa 28px và 42px
-              width: "auto",
-            }}
+            className="object-contain transition-all duration-500 max-h-[42px] md:max-h-[38px] lg:max-h-[34px] xl:max-h-[30px] 2xl:max-h-[28px]"
           />
         </Link>
 

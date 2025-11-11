@@ -9,6 +9,7 @@ const ReportFullView = () => {
 
   // Lấy URL báo cáo được truyền qua state
   const reportUrl = location.state?.url || "";
+  console.log('reportUrl', reportUrl);
 
   if (!reportUrl) {
     return (

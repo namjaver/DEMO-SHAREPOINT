@@ -1,13 +1,12 @@
 import React from "react";
 import Layout from "../components/Layout";
-import { motion } from "framer-motion";
 import FilterBar from "../components/FilterBar";
-import DashboardEmbed from "../components/Project";
 import VisualReports from "../components/VisualReport";
 import Tabs from "../components/Tabs";
+import { reportsDTG } from "../data/constant";
 
 const DTG = () => {
-    const tabs = ["Báo cáo tài liệu", "Báo cáo trực quan", "Dự án"];
+    const tabs = [ "Báo cáo trực quan", "Báo cáo tài liệu"];
     const [activeTab, setActiveTab] = React.useState(tabs[0]);
 
     return (
@@ -17,8 +16,7 @@ const DTG = () => {
             </div>
 
             {activeTab === "Báo cáo tài liệu" && <FilterBar isDTG />}
-            {activeTab === "Báo cáo trực quan" && <VisualReports />}
-            {activeTab === "Dự án" && <DashboardEmbed />}
+            {activeTab === "Báo cáo trực quan" && <VisualReports reports={reportsDTG}/>}
         </Layout>
     );
 };

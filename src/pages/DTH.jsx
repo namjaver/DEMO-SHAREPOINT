@@ -5,9 +5,10 @@ import FilterBar from "../components/FilterBar";
 import DashboardEmbed from "../components/Project";
 import VisualReports from "../components/VisualReport";
 import Tabs from "../components/Tabs";
+import { reportDTH } from "../data/constant";
 
 const DTH = () => {
-    const tabs = ["Báo cáo tài liệu", "Báo cáo trực quan"];
+    const tabs = ["Báo cáo trực quan", "Báo cáo tài liệu"];
     const [activeTab, setActiveTab] = React.useState(tabs[0]);
 
     return (
@@ -18,7 +19,7 @@ const DTH = () => {
             {activeTab === "Báo cáo tài liệu" && <FilterBar />}
             {activeTab === "Báo cáo trực quan" && (
                 <div>
-                    <VisualReports />
+                    <VisualReports reports={reportDTH} />
                 </div>
             )}
             {activeTab === "Dự án" && (

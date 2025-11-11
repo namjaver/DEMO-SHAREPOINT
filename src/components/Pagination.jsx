@@ -2,6 +2,7 @@
 import React from "react";
 
 export default function Pagination({ page, setPage, pageCount, filteredLength, PAGE_SIZE }) {
+  console.log({ page, pageCount, filteredLength }); 
   return (
     <div className="p-3 flex flex-wrap justify-between items-center text-xs bg-base-300/70 w-full border-t border-base-300 rounded-b-xl">
       <div className="mb-2 sm:mb-0 text-base-content/80">

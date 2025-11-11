@@ -11,10 +11,10 @@ export default function FileManagerDashboard({ isDTG = false }) {
   const [selectedTime, setSelectedTime] = useState([]);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [activeFilter, setActiveFilter] = useState(null);
   const [selectedCompanies, setSelectedCompanies] = useState([]);
-  const PAGE_SIZE = 10;
+  const PAGE_SIZE = 13;
 
   const departmentItems = useMemo(() => {
     const allDepartments = MOCK_COMPANIES.flatMap((c) => c.departments);
@@ -86,17 +86,20 @@ export default function FileManagerDashboard({ isDTG = false }) {
   };
 
 
-  const toggleSort = (key) => {
+  const toggleSort = (key, direction) => {
     setSortConfig((prev) => {
-      if (!prev || prev.key !== key) return { key, direction: "asc" };
-      if (prev.direction === "asc") return { key, direction: "desc" };
-      if (prev.direction === "desc") return null;
+      if (!direction) return { key: null, direction: null }; // reset khi null
+
+      if (prev.key === key && prev.direction === direction) {
+        return { key: null, direction: null }; // toggle off
+      }
+
+      return { key, direction }; // set mới
     });
   };
-
   return (
     <main className="p-4 pt-0 space-y-4 w-full max-w-full mx-auto">
-      <div className="flex flex-wrap gap-2 items-center">
+      {/* <div className="flex flex-wrap gap-2 items-center">
         <FilterPanel
           query={query}
           setQuery={setQuery}
@@ -116,7 +119,7 @@ export default function FileManagerDashboard({ isDTG = false }) {
           setSelectedCompanies={setSelectedCompanies}
           isDTG={isDTG}
         />
-      </div>
+      </div> */}
 
       <FileTable
         pageItems={pageItems}

@@ -88,3 +88,107 @@
     /* Chrome, Safari */
   }
 }
+
+/* ======= CUSTOM REACT DAYPICKER THEME (DaisyUI tone) ======= */
+
+/* Root */
+.rdp-custom {
+  padding: 8px;
+  border-radius: 12px;
+  background: hsl(var(--base-100));
+  font-size: 13px;
+  border: 1px solid hsl(var(--base-300));
+}
+
+/* Ngày */
+.rdp-custom .rdp-day {
+  border-radius: 8px;
+  height: 32px;
+  width: 32px;
+  margin: 2px;
+  transition: 0.15s;
+}
+
+/* Hover */
+.rdp-custom .rdp-day:hover {
+  background: hsl(var(--primary) / 0.15);
+}
+
+/* Ngày được chọn */
+.rdp-custom .rdp-day_selected,
+.rdp-custom .rdp-day_selected:hover {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-content));
+}
+
+/* Range */
+.rdp-custom .rdp-day_range_start,
+.rdp-custom .rdp-day_range_end {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-content));
+}
+
+.rdp-custom .rdp-day_range_middle {
+  background: hsl(var(--primary) / 0.25);
+  color: hsl(var(--base-content));
+}
+
+/* Giới hạn kích thước popup calendar */
+.popover-calendar-container {
+  max-height: 320px;
+  max-width: 260px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 12px;
+}
+
+/* Đảm bảo DayPicker không auto stretch */
+.rdp-custom {
+  width: 100%;
+}
+
+/* File: globals.css hoặc tương tự */
+.rdp-range_end .rdp-day_button {
+  @apply bg-primary text-white border-primary;
+}
+
+/* File: globals.css hoặc tương tự */
+.rdp-range_start .rdp-day_button {
+  @apply bg-primary text-white border-primary;
+}
+
+.rdp-range_middle .rdp-day_button {
+  @apply bg-primary/25 text-primary-content rounded-2xl;
+}
+
+.rdp-range_middle {
+  @apply bg-primary;
+}
+
+.rdp-range_start, .rdp-range_end {
+  background: unset;
+}
+
+.rdp-custom .rdp-day:hover {
+  @apply bg-['transparent'];
+}
+
+.rdp-custom .rdp-day {
+  @apply rounded-full bg-base-100;
+}
+
+.rdp-day {
+  @apply text-sm;
+}
+
+.rdp-button_previous .rdp-chevron, .rdp-button_next .rdp-chevron {
+  @apply fill-primary;
+}
+
+.rdp-today:not(.rdp-outside) {
+  @apply text-primary font-bold;
+}
+
+.rdp-caption_label {
+  @apply text-xl font-bold text-primary;
+}
