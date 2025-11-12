@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Search } from "lucide-react";
+import { BackpackIcon, ExternalLink, Search, StepBackIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import LOGO_POWERBI from "../assets/images/LOGO_BI.png";
@@ -266,7 +266,7 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                 onClick={() => setSelectedReport(null)}
                 className="absolute top-4 left-4 z-50 flex items-center gap-2 bg-base-200 px-4 py-2 rounded-full shadow hover:bg-base-300 transition hover:text-primary"
               >
-                <X className="w-4 h-4" />
+                <StepBackIcon className="w-4 h-4" />
                 Quay lại
               </button>
               <iframe

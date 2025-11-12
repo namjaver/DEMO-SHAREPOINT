@@ -52,6 +52,7 @@ export default function FileTable({
   const [viewRestrict, setViewRestrict] = useState({ from: undefined, to: undefined });
   // Close when clicking outside container
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [groupByType, setGroupByType] = useState(false);
 
   useEffect(() => {
     const onDocClick = (e) => {
@@ -71,7 +72,7 @@ export default function FileTable({
   }, []);
 
   const handleHeaderClick = (key, e) => {
-    if (key === "stt") return;
+    if (key === "stt" || key == "action") return;
 
     const thEl = e.currentTarget;
     const container = containerRef.current;
@@ -130,6 +131,10 @@ export default function FileTable({
   const filteredItems = useMemo(() => {
     return pageItems.filter((item) => {
       return Object.keys(searchTerms).every((key) => {
+        if (key === "reportType" && Array.isArray(searchTerms.reportType)) {
+          if (searchTerms.reportType.length === 0) return true;
+          return searchTerms.reportType.includes(item.reportType);
+        }
         // Lọc theo range ngày
         if (key === "uploadedAt" && searchTerms.uploadedAt) {
           const { start, end } = searchTerms.uploadedAt;
@@ -154,7 +159,6 @@ export default function FileTable({
       });
     });
   }, [pageItems, searchTerms]);
-
 
   const getSortIcon = (key) => {
     if (!sortConfig || sortConfig.key !== key)
@@ -182,7 +186,7 @@ export default function FileTable({
     }
   };
 
-  const columnNameData = ["stt", "title", "reporter", "uploadedAt"];
+  const columnNameData = ["stt", "title", "action", "type", "uploadedAt", "year", "reporter",];
 
   const getColumnLabel = (key) => {
     switch (key) {
@@ -190,6 +194,8 @@ export default function FileTable({
         return "STT";
       case "title":
         return "Tiêu đề";
+      case "action":
+        return "Hành động";
       case "company":
         return "Công ty";
       case "department":
@@ -198,10 +204,24 @@ export default function FileTable({
         return "Báo cáo bởi";
       case "uploadedAt":
         return "Kỳ báo cáo";
+      case "type":
+        return "Loại báo cáo";
+      case "year":
+        return "Năm báo cáo";
       default:
         return key;
     }
   };
+
+  const groupedItems = useMemo(() => {
+    const groups = {};
+    filteredItems.forEach((item) => {
+      if (!groups[item.reportType]) groups[item.reportType] = [];
+      groups[item.reportType].push(item);
+    });
+    return groups;
+  }, [filteredItems]);
+
 
   return (
     <div
@@ -221,7 +241,7 @@ export default function FileTable({
                 <div className={`flex items-center justify-between`}>
                   <div className="flex items-center gap-2 cursor-pointer">
                     <span className="capitalize">{getColumnLabel(key)}</span>
-                    {key !== "stt" && (
+                    {(key !== "stt" && key !== "action") && (
                       <span className="flex items-center gap-1">
                         {getSortIcon(key)}
                         <ChevronDown size={14} className={`transition-transform ${activeFilter === key ? "rotate-180" : ""}`} />
@@ -231,20 +251,79 @@ export default function FileTable({
                 </div>
               </th>
             ))}
-            <th className="px-4 py-2 text-center w-1/12 min-w-[100px]">Hành động</th>
           </tr>
         </thead>
 
         <tbody>
           {filteredItems.length === 0 ? (
             <tr>
-              <td colSpan={columnNameData.length + 1} className="p-6 text-center opacity-70">
+              <td
+                colSpan={columnNameData.length + 1}
+                className="p-6 text-center opacity-70"
+              >
                 Không tìm thấy tài liệu phù hợp
               </td>
             </tr>
+          ) : groupByType ? (
+            // ✅ Khi bật group
+            Object.entries(
+              filteredItems.reduce((acc, item) => {
+                const key = item.type || "Khác";
+                if (!acc[key]) acc[key] = [];
+                acc[key].push(item);
+                return acc;
+              }, {})
+            ).map(([type, items]) => (
+              <React.Fragment key={type}>
+                <tr className="bg-base-200 sticky top-0 z-10">
+                  <td
+                    colSpan={columnNameData.length + 1}
+                    className="px-4 py-2 font-semibold text-left text-primary"
+                  >
+                    Loại báo cáo: {type}
+                  </td>
+                </tr>
+                {items.map((f, idx) => (
+                  <tr
+                    key={f.id ?? idx}
+                    className="hover:bg-primary/5 border-t border-base-300 transition-all"
+                  >
+                    <td className="px-4 py-2 text-sm font-medium">{idx + 1}</td>
+                    <td className="px-4 py-2">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 flex items-center justify-center rounded-lg flex-shrink-0">
+                          {getFileIcon(f.fileName)}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-medium text-sm truncate">{f.title}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-4 py-2 text-center">
+                      <div className="flex justify-start gap-2">
+                        <button className="p-2 rounded-xl bg-base-300 hover:bg-primary/20 transition">
+                          <Eye size={16} />
+                        </button>
+                        <button className="p-2 rounded-xl bg-base-300 hover:bg-success/20 transition">
+                          <Download size={16} />
+                        </button>
+                      </div>
+                    </td>
+                    <td className="px-4 py-2 text-sm truncate">{f.type}</td>
+                    <td className="px-4 py-2 text-sm truncate">{f.uploadedAt}</td>
+                    <td className="px-4 py-2 text-sm truncate">{f.year}</td>
+                    <td className="px-4 py-2 text-sm truncate">{f.reporter}</td>
+                  </tr>
+                ))}
+              </React.Fragment>
+            ))
           ) : (
+            // ✅ Khi KHÔNG bật group
             filteredItems.map((f, idx) => (
-              <tr key={f.id ?? idx} className="hover:bg-primary/5 border-t border-base-300 transition-all">
+              <tr
+                key={f.id ?? idx}
+                className="hover:bg-primary/5 border-t border-base-300 transition-all"
+              >
                 <td className="px-4 py-2 text-sm font-medium">{idx + 1}</td>
                 <td className="px-4 py-2">
                   <div className="flex items-center gap-3">
@@ -256,12 +335,8 @@ export default function FileTable({
                     </div>
                   </div>
                 </td>
-
-                <td className="px-4 py-2 text-sm truncate">{f.reporter}</td>
-                <td className="px-4 py-2 text-sm truncate">{f.uploadedAt}</td>
-
                 <td className="px-4 py-2 text-center">
-                  <div className="flex justify-center gap-2">
+                  <div className="flex justify-start gap-2">
                     <button className="p-2 rounded-xl bg-base-300 hover:bg-primary/20 transition">
                       <Eye size={16} />
                     </button>
@@ -270,10 +345,16 @@ export default function FileTable({
                     </button>
                   </div>
                 </td>
+                <td className="px-4 py-2 text-sm truncate">{f.type}</td>
+                <td className="px-4 py-2 text-sm truncate">{f.uploadedAt}</td>
+                <td className="px-4 py-2 text-sm truncate">{f.year}</td>
+                <td className="px-4 py-2 text-sm truncate">{f.reporter}</td>
               </tr>
             ))
           )}
         </tbody>
+
+
       </table>
 
       {/* Popover rendered once, positioned by popoverStyle */}
@@ -480,8 +561,20 @@ export default function FileTable({
                   className="input input-sm input-bordered w-full text-sm"
                 />
               )}
-
-
+              {activeFilter === "type" && (
+                <div className="flex flex-col gap-2 max-h-60">
+                  <button
+                    onClick={() => {
+                      setGroupByType((prev) => !prev);
+                      setActiveFilter(null);
+                    }}
+                    className={`btn btn-xs w-full justify-center gap-1 flex-1 ${groupByType ? "btn-primary" : ""
+                      }`}
+                  >
+                    {groupByType ? "Hủy nhóm theo loại" : "Nhóm theo loại báo cáo"}
+                  </button>
+                </div>
+              )}
               <div className="flex gap-2">
                 <button
                   onClick={() => toggleSort?.(activeFilter, "asc")}
@@ -504,7 +597,7 @@ export default function FileTable({
                 </button>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => { clearFilter(activeFilter); toggleSort?.(activeFilter, null); }} className="btn btn-ghost btn-xs text-error w-full justify-center gap-1 flex-1" style={{ textWrap: 'nowrap', flexWrap: 'nowrap' }}>
+                <button onClick={() => { clearFilter(activeFilter); toggleSort?.(activeFilter, null);     setGroupByType(false);  }} className="btn btn-ghost btn-xs text-error w-full justify-center gap-1 flex-1" style={{ textWrap: 'nowrap', flexWrap: 'nowrap' }}>
                   <Filter size={12} /> Xoá bộ lọc
                 </button>
                 <button onClick={() => setActiveFilter(null)} className="btn btn-primary btn-xs w-full justify-center gap-1 flex-1">

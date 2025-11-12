@@ -25,11 +25,12 @@ export function makeFiles() {
           company: c.name,
           department: d,
           reporter: 'Chấn Nam',
-          type,
+          type: ["Tháng", "Quý", "Năm"][i % 3],
           uploader: `user${(i % 5) + 1}@company.vn`,
           uploadedAt: dt.toISOString().slice(0, 10),
           sizeKB: Math.floor(Math.random() * 900) + 100,
           notes: `Mẫu báo cáo ${type.toLowerCase()} dành cho ${d}`,
+          year: '2025'
         });
       }
     }

@@ -22,24 +22,24 @@ function App() {
       <div className="min-h-screen">
         <main className="flex">
           <Routes>
-            <Route path="/" element={<Navigate to="/DTH/DUYTAN-RPT" replace />} />
+            <Route path="/" element={<Navigate to="/DTH/bao-cao" replace />} />
             {/* DTH */}
-            <Route path="/DTH/DUYTAN-RPT" element={<DTH />} />
-            <Route path="/DTH/DUYTAN-MASTER" element={<MasterData />} />
+            <Route path="/DTH/bao-cao" element={<DTH />} />
+            <Route path="/DTH/master-data" element={<MasterData />} />
             {/* DTR */}
-            <Route path="/DTR/DUYTAN-RPT" element={<DTR />} />
+            <Route path="/DTR/bao-cao" element={<DTR />} />
 
             {/* MIDA */}
-            <Route path="/MIDA/DUYTAN-RPT" element={<MIDA />} />
+            <Route path="/MIDA/bao-cao" element={<MIDA />} />
 
             {/* PLASCENE */}
-            <Route path="/PLASCENE/DUYTAN-RPT" element={<PLAS />} />
+            <Route path="/PLASCENE/bao-cao" element={<PLAS />} />
 
             <Route path="/news" element={<NewsSection />} />
             <Route path="/report-view" element={<ReportFullView />} />
 
             {/* PLENMA */}
-            <Route path="/PLENMA/DUYTAN-RPT" element={<Plenma />} />
+            <Route path="/PLENMA/bao-cao" element={<Plenma />} />
 
             {/* TRẠM */}
             <Route path="/tram/dai-loc" element={<DaiLoc />} />
@@ -49,10 +49,10 @@ function App() {
             <Route path="/tram/khanh-nga" element={<KhanhNga />} />
 
             {/* DUFO */}
-            <Route path="/DUFO/DUYTAN-RPT" element={<Dufo />} />
+            <Route path="/DUFO/bao-cao" element={<Dufo />} />
 
             {/* NATEC */}
-            <Route path="/NATEC/DUYTAN-RPT" element={<NATEC />} />
+            <Route path="/NATEC/bao-cao" element={<NATEC />} />
 
             <Route path="*" element={<NotFound />} />
 

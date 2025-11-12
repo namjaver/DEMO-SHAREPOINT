@@ -9,8 +9,8 @@ import clsx from "clsx";
 // 🧱 DỮ LIỆU CẤU HÌNH
 // ------------------------------
 const COMMON_SUB_ITEMS = [
-  { label: "Báo cáo", suffix: "RPT" },
-  { label: "Master Data", suffix: "MASTER" },
+  { label: "Báo cáo", suffix: "bao-cao" },
+  { label: "Master Data", suffix: "master-data" },
 ];
 
 const COMPANY_DATA = [
@@ -30,14 +30,16 @@ const MENU_ITEMS = [
     to: `/${label.replace(/ & /g, "").replace(/\s+/g, "")}`,
     children: COMMON_SUB_ITEMS.map((sub) => ({
       label: sub.label,
-      to: `/${label.replace(/ & /g, "").replace(/\s+/g, "")}/DUYTAN-${sub.suffix}`,
+      to: `/${label.replace(/ & /g, "").replace(/\s+/g, "")}/${sub.suffix}`,
     })),
   })),
-  { label: "TRẠM", to: "/tram", children: [
-    { label: "Báo Cáo Đại Lộc", to: "/tram/dai-loc" },
-    { label: "Báo cáo Đồng Lâm", to: "/tram/dong-lam"},
-    { label: "Báo cáo Khánh Nga", to: "/tram/khanh-nga"}
-  ]}
+  {
+    label: "TRẠM", to: "/tram", children: [
+      { label: "Báo Cáo Đại Lộc", to: "/tram/dai-loc" },
+      { label: "Báo cáo Đồng Lâm", to: "/tram/dong-lam" },
+      { label: "Báo cáo Khánh Nga", to: "/tram/khanh-nga" }
+    ]
+  }
 ];
 
 // ------------------------------
@@ -110,7 +112,7 @@ const MenuItemWithDropdown = React.memo(
 // ------------------------------
 // 🏠 HEADER CHÍNH
 // ------------------------------
-const Header = () => {
+const Header = ({ onToggleSwap }) => {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -157,10 +159,10 @@ const Header = () => {
 
         {/* Menu */}
         <ul className={clsx(
-    "hidden md:flex flex-1 justify-evenly items-center font-medium text-nowrap transition-all duration-300",
-    "gap-2 md:gap-4 lg:gap-6 xl:gap-8",
-    "text-[13px] md:text-[14px] lg:text-[15px] xl:text-[16px]"
-  )}>
+          "hidden md:flex flex-1 justify-evenly items-center font-medium text-nowrap transition-all duration-300",
+          "gap-2 md:gap-4 lg:gap-6 xl:gap-8",
+          "text-[13px] md:text-[14px] lg:text-[15px] xl:text-[16px]"
+        )}>
           {MENU_ITEMS.map((item, index) => (
             <MenuItemWithDropdown
               key={index}
@@ -175,10 +177,21 @@ const Header = () => {
 
         {/* Theme toggle */}
         <div className="flex items-center gap-3 flex-shrink-0">
-            <Link to="/news" className="text-[clamp(12px,1vw,15px)] hover:text-primary transition-colors duration-200">
+          <Link to="/news" className="text-[clamp(12px,1vw,15px)] hover:text-primary transition-colors duration-200">
             <Newspaper />
           </Link>
           <ThemeToggle />
+          {/* <Link
+            onClick={onToggleSwap}
+            className={clsx(
+              "btn btn-sm text-white transition-all duration-300",
+              isScrolled
+                ? "btn-primary hover:bg-primary-focus" // Màu sắc rõ ràng khi cuộn
+                : "bg-primary hover:bg-primary/90 border-primary" // Màu sắc rõ ràng khi KHÔNG cuộn
+            )}
+          >
+            Đổi Header
+          </Link> */}
         </div>
       </div>
     </header>
