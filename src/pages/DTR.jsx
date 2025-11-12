@@ -19,7 +19,7 @@ const DTR = () => {
             {activeTab === "Báo cáo tài liệu" && <FilterBar />}
             {activeTab === "Báo cáo trực quan" && (
                 <div>
-                    <VisualReports reports={reportDTR} />
+                    <VisualReports reports={reportDTR} isSalesForce/>
                 </div>
             )}
             {activeTab === "Dự án" && (

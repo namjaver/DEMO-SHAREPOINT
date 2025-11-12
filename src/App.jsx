@@ -1,5 +1,5 @@
 import Header from "./components/Header";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import DTH from "./pages/DTH";
 import DTG from "./pages/DTG";
 import NewsSection from "./components/NewsSelection";
@@ -8,6 +8,13 @@ import MasterData from "./pages/MasterData";
 import DTR from "./pages/DTR";
 import MIDA from "./pages/MIDA";
 import PLAS from "./pages/PLAS";
+import NotFound from "./pages/404";
+import Plenma from "./pages/Plenma";
+import DaiLoc from "./pages/DaiLoc";
+import DongLam from "./pages/DongLam";
+import KhanhNga from "./pages/KhanhNga";
+import Dufo from "./pages/Dufo";
+import NATEC from "./pages/NATEC";
 
 function App() {
   return (
@@ -15,7 +22,7 @@ function App() {
       <div className="min-h-screen">
         <main className="flex">
           <Routes>
-            <Route path="/" element={<DTG />} />\
+            <Route path="/" element={<Navigate to="/DTH/DUYTAN-RPT" replace />} />
             {/* DTH */}
             <Route path="/DTH/DUYTAN-RPT" element={<DTH />} />
             <Route path="/DTH/DUYTAN-MASTER" element={<MasterData />} />
@@ -30,6 +37,25 @@ function App() {
 
             <Route path="/news" element={<NewsSection />} />
             <Route path="/report-view" element={<ReportFullView />} />
+
+            {/* PLENMA */}
+            <Route path="/PLENMA/DUYTAN-RPT" element={<Plenma />} />
+
+            {/* TRẠM */}
+            <Route path="/tram/dai-loc" element={<DaiLoc />} />
+
+            <Route path="/tram/dong-lam" element={<DongLam />} />
+
+            <Route path="/tram/khanh-nga" element={<KhanhNga />} />
+
+            {/* DUFO */}
+            <Route path="/DUFO/DUYTAN-RPT" element={<Dufo />} />
+
+            {/* NATEC */}
+            <Route path="/NATEC/DUYTAN-RPT" element={<NATEC />} />
+
+            <Route path="*" element={<NotFound />} />
+
             {/* <Route path="/about" element={<About />} /> */}
             {/* <Route path="/contact" element={<Contact />} /> */}
           </Routes>

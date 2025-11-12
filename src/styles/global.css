@@ -192,3 +192,16 @@
 .rdp-caption_label {
   @apply text-xl font-bold text-primary;
 }
+
+@media (max-width: 1350px) {
+  header ul {
+    font-size: 13px !important;
+    gap: 4px !important;
+  }
+}
+@media (max-width: 1200px) {
+  header ul {
+    font-size: 12px !important;
+    gap: 2px !important;
+  }
+}

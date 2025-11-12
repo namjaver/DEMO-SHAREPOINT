@@ -5,9 +5,9 @@ import FilterBar from "../components/FilterBar";
 import DashboardEmbed from "../components/Project";
 import VisualReports from "../components/VisualReport";
 import Tabs from "../components/Tabs";
-import { reportDTH, reportsDTG } from "../data/constant";
+import { reportDUFO } from "../data/constant";
 
-const DTH = () => {
+const Dufo = () => {
     const tabs = ["Báo cáo trực quan", "Báo cáo tài liệu"];
     const [activeTab, setActiveTab] = React.useState(tabs[0]);
 
@@ -19,7 +19,7 @@ const DTH = () => {
             {activeTab === "Báo cáo tài liệu" && <FilterBar />}
             {activeTab === "Báo cáo trực quan" && (
                 <div>
-                    <VisualReports reports={reportDTH} reportDTG={reportsDTG} isDTG/>
+                    <VisualReports reports={reportDUFO} />
                 </div>
             )}
             {activeTab === "Dự án" && (
@@ -28,4 +28,4 @@ const DTH = () => {
         </Layout>
     );
 };
-export default DTH;
+export default Dufo;

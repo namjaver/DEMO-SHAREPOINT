@@ -5,7 +5,7 @@ import FilterPanel from "./FilePanel";
 import FileTable from "./FileTable";
 import Pagination from "./Pagination";
 
-export default function FileManagerDashboard({ isDTG = false }) {
+export default function FileManagerDashboard () {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selectedDepartments, setSelectedDepartments] = useState([]);
   const [selectedTime, setSelectedTime] = useState([]);
@@ -125,7 +125,6 @@ export default function FileManagerDashboard({ isDTG = false }) {
         pageItems={pageItems}
         toggleSort={toggleSort}
         sortConfig={sortConfig}
-        isDTG={isDTG}
       >
         <Pagination
           page={page}

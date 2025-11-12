@@ -47,10 +47,12 @@ export default function FileTable({
   const [popoverStyle, setPopoverStyle] = useState(null); // { left, top, width }
   const [searchTerms, setSearchTerms] = useState({});
   const containerRef = useRef(null);
-  const [dateListMode, setDateListMode] = useState("calendar");
+  const [dateListMode, setDateListMode] = useState("year");
   // 'month' | 'quarter' | 'year' | 'calendar'
   const [viewRestrict, setViewRestrict] = useState({ from: undefined, to: undefined });
   // Close when clicking outside container
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
   useEffect(() => {
     const onDocClick = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -195,7 +197,7 @@ export default function FileTable({
       case "reporter":
         return "Báo cáo bởi";
       case "uploadedAt":
-        return "Thời gian";
+        return "Kỳ báo cáo";
       default:
         return key;
     }
@@ -279,12 +281,11 @@ export default function FileTable({
         <div
           style={{
             position: "absolute",
-            left: activeFilter !== 'uploadedAt' ? popoverStyle.left : 'unset',
+            left: popoverStyle.left,
             top: popoverStyle.top,
             width: activeFilter === 'uploadedAt' ? 'fit-content' : popoverStyle.width,
             zIndex: 60,
             transformOrigin: "top center",
-            right: activeFilter === 'uploadedAt' ? 12 : 'unset',
           }}
           className="pointer-events-auto"
         >
@@ -344,10 +345,9 @@ export default function FileTable({
                   {/* CONTENT: month / quarter / year lists OR calendar */}
                   <div className="w-full">
                     {dateListMode === "month" && (
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="grid grid-cols-2 gap-2">
                         {Array.from({ length: 12 }).map((_, i) => {
-                          const now = new Date();
-                          const monthDate = addMonths(new Date(now.getFullYear(), 0, 1), i); // month i
+                          const monthDate = addMonths(new Date(selectedYear, 0, 1), i); // month i
                           const start = startOfMonth(monthDate);
                           const end = endOfMonth(monthDate);
                           const label = format(monthDate, "M", { locale: vi }); // tên tháng bằng tiếng Việt
@@ -381,7 +381,7 @@ export default function FileTable({
                       <div className="flex flex-col gap-2">
                         {[1, 2, 3, 4].map((q) => {
                           // compute quarter start/end for current year
-                          const year = new Date().getFullYear();
+                          const year = selectedYear;
                           const qStart = startOfQuarter(new Date(year, (q - 1) * 3, 1));
                           const qEnd = endOfQuarter(new Date(year, (q - 1) * 3, 1));
                           const label = `Qúy ${q} ${year}`;
@@ -412,8 +412,8 @@ export default function FileTable({
                     )}
 
                     {dateListMode === "year" && (
-                      <div className="grid grid-cols-2 gap-2">
-                        {Array.from({ length: 10 }).map((_, idx) => {
+                      <div className="grid grid-cols-3 gap-2">
+                        {Array.from({ length: 12 }).map((_, idx) => {
                           const year = new Date().getFullYear() - idx;
                           const yStart = startOfYear(new Date(year, 0, 1));
                           const yEnd = endOfYear(new Date(year, 11, 31));
@@ -431,10 +431,11 @@ export default function FileTable({
                                   uploadedAt: { start: yStart, end: yEnd },
                                 }));
                                 setViewRestrict({ from: yStart, to: yEnd });
+                                setSelectedYear(year);
                               }}
                             >
-                              <div className="text-sm">{year}</div>
-                              <div className="text-xs opacity-60">{`${format(yStart, "dd/MM/yyyy")} → ${format(yEnd, "dd/MM/yyyy")}`}</div>
+                              <div className="text-xs justify-center">{year}</div>
+                              {/* <div className="text-xs opacity-60">{`${format(yStart, "dd/MM/yyyy")} → ${format(yEnd, "dd/MM/yyyy")}`}</div> */}
                             </button>
                           );
                         })}
@@ -503,7 +504,7 @@ export default function FileTable({
                 </button>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => { clearFilter(activeFilter); toggleSort?.(activeFilter, null); }} className="btn btn-ghost btn-xs text-error w-full justify-center gap-1 flex-1">
+                <button onClick={() => { clearFilter(activeFilter); toggleSort?.(activeFilter, null); }} className="btn btn-ghost btn-xs text-error w-full justify-center gap-1 flex-1" style={{ textWrap: 'nowrap', flexWrap: 'nowrap' }}>
                   <Filter size={12} /> Xoá bộ lọc
                 </button>
                 <button onClick={() => setActiveFilter(null)} className="btn btn-primary btn-xs w-full justify-center gap-1 flex-1">
