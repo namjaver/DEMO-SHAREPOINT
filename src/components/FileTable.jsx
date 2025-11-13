@@ -640,7 +640,7 @@ export default function FileTable({
                   <Filter size={12} /> Xoá bộ lọc
                 </button>
                 <button onClick={() => setActiveFilter(null)} className="btn btn-primary btn-xs w-full justify-center gap-1 flex-1">
-                  Cancel
+                  OK
                 </button>
               </div>
             </div>
