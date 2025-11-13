@@ -72,7 +72,7 @@ export default function FileTable({
   }, []);
 
   const handleHeaderClick = (key, e) => {
-    if (key === "stt" || key == "action") return;
+    if (key === "stt" || key == "action" || key == "uploadedAt" || key == "year") return;
 
     const thEl = e.currentTarget;
     const container = containerRef.current;
@@ -131,6 +131,10 @@ export default function FileTable({
   const filteredItems = useMemo(() => {
     return pageItems.filter((item) => {
       return Object.keys(searchTerms).every((key) => {
+        if (key === "type" && Array.isArray(searchTerms.type)) {
+          if (searchTerms.type.length === 0) return true;
+          return searchTerms.type.includes(item.type);
+        }
         if (key === "reportType" && Array.isArray(searchTerms.reportType)) {
           if (searchTerms.reportType.length === 0) return true;
           return searchTerms.reportType.includes(item.reportType);
@@ -241,7 +245,7 @@ export default function FileTable({
                 <div className={`flex items-center justify-between`}>
                   <div className="flex items-center gap-2 cursor-pointer">
                     <span className="capitalize">{getColumnLabel(key)}</span>
-                    {(key !== "stt" && key !== "action") && (
+                    {(key !== "stt" && key !== "action" && key !== "uploadedAt" && key !== "year") && (
                       <span className="flex items-center gap-1">
                         {getSortIcon(key)}
                         <ChevronDown size={14} className={`transition-transform ${activeFilter === key ? "rotate-180" : ""}`} />
@@ -553,7 +557,7 @@ export default function FileTable({
                 </div>
               ) : (
                 /* existing input block */
-                <input
+                activeFilter !== "type" && <input
                   type="text"
                   placeholder="Tìm kiếm..."
                   value={searchTerms[activeFilter] || ""}
@@ -562,19 +566,54 @@ export default function FileTable({
                 />
               )}
               {activeFilter === "type" && (
-                <div className="flex flex-col gap-2 max-h-60">
+                <div className="flex flex-col gap-2">
+                  <div className="text-sm font-medium mb-1">Chọn loại báo cáo</div>
+                  <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
+                    {["Tháng", "Quý", "Năm"].map((option) => {
+                      const selected = searchTerms.type?.includes(option);
+                      return (
+                        <label
+                          key={option}
+                          className="flex items-center gap-2 cursor-pointer hover:bg-base-200 px-2 py-1 rounded"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selected}
+                            onChange={(e) => {
+                              setSearchTerms((prev) => {
+                                const prevList = prev.type || [];
+                                if (e.target.checked) {
+                                  return { ...prev, type: [...prevList, option] };
+                                } else {
+                                  return {
+                                    ...prev,
+                                    type: prevList.filter((x) => x !== option),
+                                  };
+                                }
+                              });
+                            }}
+                            className="checkbox checkbox-xs checkbox-primary"
+                          />
+                          <span className="text-sm">{option}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+
+                  {/* Nhóm theo loại báo cáo */}
                   <button
                     onClick={() => {
                       setGroupByType((prev) => !prev);
                       setActiveFilter(null);
                     }}
-                    className={`btn btn-xs w-full justify-center gap-1 flex-1 ${groupByType ? "btn-primary" : ""
+                    className={`btn btn-xs w-full justify-center gap-1 flex-1 ${groupByType ? "btn-primary" : "btn-outline"
                       }`}
                   >
                     {groupByType ? "Hủy nhóm theo loại" : "Nhóm theo loại báo cáo"}
                   </button>
                 </div>
               )}
+
               <div className="flex gap-2">
                 <button
                   onClick={() => toggleSort?.(activeFilter, "asc")}
@@ -597,7 +636,7 @@ export default function FileTable({
                 </button>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => { clearFilter(activeFilter); toggleSort?.(activeFilter, null);     setGroupByType(false);  }} className="btn btn-ghost btn-xs text-error w-full justify-center gap-1 flex-1" style={{ textWrap: 'nowrap', flexWrap: 'nowrap' }}>
+                <button onClick={() => { clearFilter(activeFilter); toggleSort?.(activeFilter, null); setGroupByType(false); }} className="btn btn-ghost btn-xs text-error w-full justify-center gap-1 flex-1" style={{ textWrap: 'nowrap', flexWrap: 'nowrap' }}>
                   <Filter size={12} /> Xoá bộ lọc
                 </button>
                 <button onClick={() => setActiveFilter(null)} className="btn btn-primary btn-xs w-full justify-center gap-1 flex-1">
