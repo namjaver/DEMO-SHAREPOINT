@@ -8,7 +8,7 @@ import Tabs from "../components/Tabs";
 import { reportDAILOC } from "../data/constant";
 
 const DaiLoc = () => {
-    const tabs = ["Báo cáo trực quan", "Báo cáo tài liệu"];
+    const tabs = ["Báo cáo trực quan", "Thuyết Minh"];
     const [activeTab, setActiveTab] = React.useState(tabs[0]);
 
     return (
@@ -16,7 +16,7 @@ const DaiLoc = () => {
             <div className="flex w-full">
                 <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
             </div>
-            {activeTab === "Báo cáo tài liệu" && <FilterBar />}
+            {activeTab === "Thuyết Minh" && <FilterBar />}
             {activeTab === "Báo cáo trực quan" && (
                 <div>
                     <VisualReports reports={reportDAILOC} />

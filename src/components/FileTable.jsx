@@ -10,6 +10,7 @@ import {
   ChevronDown,
   X,
   Filter,
+  StepBackIcon,
 } from "lucide-react";
 
 import EXCEL from "../assets/images/MS_EXCEL.png";
@@ -53,6 +54,7 @@ export default function FileTable({
   // Close when clicking outside container
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [groupByType, setGroupByType] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
     const onDocClick = (e) => {
@@ -168,9 +170,9 @@ export default function FileTable({
     if (!sortConfig || sortConfig.key !== key)
       return null;
     if (sortConfig.direction === "asc")
-      return <ArrowUp size={14} className="text-primary" />;
-    if (sortConfig.direction === "desc")
-      return <ArrowDown size={14} className="text-primary" />;
+      // return <ArrowUp size={14} className="text-primary" />;
+      if (sortConfig.direction === "desc")
+        return <ArrowDown size={14} className="text-primary" />;
     return null;
   };
 
@@ -341,7 +343,8 @@ export default function FileTable({
                 </td>
                 <td className="px-4 py-2 text-center">
                   <div className="flex justify-start gap-2">
-                    <button className="p-2 rounded-xl bg-base-300 hover:bg-primary/20 transition">
+                    <button onClick={() => setPreviewUrl(f.Link + "#toolbar=0&navpanes=0&scrollbar=0")}
+                      className="p-2 rounded-xl bg-base-300 hover:bg-primary/20 transition">
                       <Eye size={16} />
                     </button>
                     <button className="p-2 rounded-xl bg-base-300 hover:bg-success/20 transition">
@@ -358,6 +361,24 @@ export default function FileTable({
           )}
         </tbody>
 
+        {previewUrl && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+            <div className="relative w-full h-full bg-base-100">
+              <button
+                onClick={() => setPreviewUrl(null)}
+                className="absolute top-4 left-4 z-50 flex items-center gap-2 bg-base-200 px-4 py-2 rounded-full shadow hover:bg-base-300 transition hover:text-primary"
+              >
+                <StepBackIcon className="w-4 h-4" />
+                Quay lại
+              </button>
+              <iframe
+                src={previewUrl}
+                className="w-full h-full border-none"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        )}
 
       </table>
 
@@ -606,7 +627,7 @@ export default function FileTable({
                       setGroupByType((prev) => !prev);
                       setActiveFilter(null);
                     }}
-                    className={`btn btn-xs w-full justify-center gap-1 flex-1 ${groupByType ? "btn-primary" : "btn-outline"
+                    className={`btn btn-xs w-full justify-center gap-1 flex-1 ${groupByType ? "btn-primary" : ""
                       }`}
                   >
                     {groupByType ? "Hủy nhóm theo loại" : "Nhóm theo loại báo cáo"}

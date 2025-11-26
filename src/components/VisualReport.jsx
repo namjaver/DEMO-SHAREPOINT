@@ -1,13 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { BackpackIcon, ExternalLink, Search, StepBackIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Search, StepBackIcon } from "lucide-react";
 
-import LOGO_POWERBI from "../assets/images/LOGO_BI.png";
-import LOGO_SALESFORCE from "../assets/images/LOGO_SALESFORCE_2.png";
-import LOGO_TABLEAU from "../assets/images/LOGO_TABLEAU.png";
+import SALES from '../assets/images/sales.jpg';
+import PURCHASE from '../assets/images/purchase.jpg';
+import DELIVERY from '../assets/images/delivery.png';
 import NODATA from "../assets/images/no_data.png";
-import { X } from "lucide-react";
 
 export default function ReportDashboard({ reports, isSalesForce = false, isDTG = false, reportDTG }) {
   const [reportSearchTerm, setReportSearchTerm] = useState("");
@@ -132,7 +130,7 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                     </div>
                     <div className={`h-1.5 w-full bg-gradient-to-r ${report.Color}`} />
                     <div className="p-4 flex flex-col items-center text-center">
-                      <img src={LOGO_TABLEAU} className="w-14 h-14 mb-3 opacity-90 group-hover:opacity-100" />
+                      <img src={"https://homebi.duytangroup.com/"+ report.Picture} className="max-h-[128px] mb-3 opacity-90 group-hover:opacity-100" />
                       <h3 className="text-sm font-semibold leading-tight mb-1 line-clamp-2">{report.Ten}</h3>
                       <div className="text-[11px] text-base-content/60 mb-2 italic">{report.NguoiKiemSoat}</div>
                     </div>
@@ -162,8 +160,8 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                   <div className="absolute top-2 left-2 bg-[#00a2e1] text-primary-content text-[10px] px-2 py-0.5 rounded shadow-sm z-10">
                     1
                   </div>
-                  <div className="p-4 flex flex-col items-center text-center">
-                    <img src={LOGO_SALESFORCE} className="h-14 mb-3 opacity-90 group-hover:opacity-100" />
+                  <div className="h-max p-4 flex flex-col items-center text-center">
+                    <img src={SALES} className="h-[300px] mb-3 opacity-90 group-hover:opacity-100" />
                     <h3 className="text-sm font-semibold leading-tight mb-1 line-clamp-2">Báo Cáo Kinh Doanh</h3>
                     <div className="text-[11px] text-base-content/60 mb-2 italic">DTR</div>
                   </div>
@@ -180,7 +178,7 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                     2
                   </div>
                   <div className="p-4 flex flex-col items-center text-center">
-                    <img src={LOGO_SALESFORCE} className="h-14 mb-3 opacity-90 group-hover:opacity-100" />
+                    <img src={PURCHASE} className="h-[300px] mb-3 opacity-90 group-hover:opacity-100" />
                     <h3 className="text-sm font-semibold leading-tight mb-1 line-clamp-2">Báo Cáo Thu Mua</h3>
                     <div className="text-[11px] text-base-content/60 mb-2 italic">DTR</div>
                   </div>
@@ -197,7 +195,7 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                     3
                   </div>
                   <div className="p-4 flex flex-col items-center text-center">
-                    <img src={LOGO_SALESFORCE} className="h-14 mb-3 opacity-90 group-hover:opacity-100" />
+                    <img src={DELIVERY} className="h-[300px] mb-3 opacity-90 group-hover:opacity-100" />
                     <h3 className="text-sm font-semibold leading-tight mb-1 line-clamp-2">Báo Cáo Giao Hàng</h3>
                     <div className="text-[11px] text-base-content/60 mb-2 italic">DTR</div>
                   </div>
@@ -236,7 +234,7 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                     </div>
                     <div className={`h-1.5 w-full bg-gradient-to-r ${report.Color}`} />
                     <div className="p-4 flex flex-col items-center text-center">
-                      <img src={LOGO_TABLEAU} className="w-14 h-14 mb-3 opacity-90 group-hover:opacity-100" />
+                      <img src={"https://homebi.duytangroup.com/"+ report.Picture} className="w-28 h-28 mb-3 opacity-90 group-hover:opacity-100" />
                       <h3 className="text-sm font-semibold leading-tight mb-1 line-clamp-2">{report.Ten}</h3>
                       <div className="text-[11px] text-base-content/60 mb-2 italic">{report.NguoiKiemSoat}</div>
                     </div>
