@@ -4,6 +4,7 @@ import { ChevronDown, Newspaper } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import LOGO_DUYTAN_GROUP from "../assets/images/LOGO_DUYTAN.png";
 import clsx from "clsx";
+import { MASTER_DATA_EXTERNAL_LINK, TRAM_MASTER_DATA_EXTERNAL_LINK } from "../data/constant";
 
 // ------------------------------
 // 🧱 DỮ LIỆU CẤU HÌNH
@@ -24,23 +25,56 @@ const COMPANY_DATA = [
   "CTY KHAC",
 ];
 
-const MENU_ITEMS = [
-  ...COMPANY_DATA.map((label) => ({
-    label,
-    to: `/${label.replace(/ & /g, "").replace(/\s+/g, "")}`,
-    children: COMMON_SUB_ITEMS.map((sub) => ({
-      label: sub.label,
-      to: `/${label.replace(/ & /g, "").replace(/\s+/g, "")}/${sub.suffix}`,
-    })),
-  })),
-  {
-    label: "TRẠM", to: "/tram", children: [
-      { label: "Báo Cáo Đại Lộc", to: "/tram/dai-loc" },
-      { label: "Báo cáo Đồng Lâm", to: "/tram/dong-lam" },
-      { label: "Báo cáo Khánh Nga", to: "/tram/khanh-nga" }
-    ]
-  }
+const TRAM_DATA = [
+  { label: "Đại Lộc", key: "DAI_LOC", slug: "dai-loc" },
+  { label: "Đồng Lâm", key: "DONG_LAM", slug: "dong-lam" },
+  { label: "Khánh Nga", key: "KHANH_NGA", slug: "khanh-nga" },
 ];
+
+
+const MENU_ITEMS = [
+  // ===== CÔNG TY (GIỮ NGUYÊN) =====
+  ...COMPANY_DATA.map((label) => {
+    const path = label.replace(/ & /g, "").replace(/\s+/g, "");
+
+    return {
+      label,
+      to: `/${path}`,
+      children: [
+        {
+          label: "Báo cáo",
+          to: `/${path}/bao-cao`,
+        },
+        {
+          label: "Master Data",
+          externalLink: MASTER_DATA_EXTERNAL_LINK[label],
+        },
+      ],
+    };
+  }),
+
+  // ===== TRẠM (MỖI TRẠM CÓ SUBITEMS) ✅ =====
+  {
+    label: "TRẠM",
+    children: TRAM_DATA.map((tram) => ({
+      label: tram.label,
+      to: `/tram/${tram.slug}`,
+      children: [
+        {
+          label: "Báo cáo",
+          to: `/tram/${tram.slug}/bao-cao`,
+        },
+        {
+          label: "Master Data",
+          externalLink: TRAM_MASTER_DATA_EXTERNAL_LINK[tram.key],
+        },
+      ],
+    })),
+  },
+];
+
+
+
 
 // ------------------------------
 // 🧩 COMPONENT SUBMENU ITEM
@@ -93,15 +127,28 @@ const MenuItemWithDropdown = React.memo(
           >
             {item.children.map((sub, subIndex) => (
               <li key={subIndex}>
-                <Link
-                  to={sub.to}
-                  onClick={() => setOpenDropdown(null)}
-                  className="block px-4 py-2 text-base-content hover:text-primary transition-all duration-200 relative hover:pl-3 before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-primary before:opacity-0 hover:before:opacity-100 before:transition-opacity"
-                >
-                  {sub.label}
-                </Link>
+                {sub.externalLink ? (
+                  <a
+                    href={sub.externalLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setOpenDropdown(null)}
+                    className="block px-4 py-2 text-base-content hover:text-primary transition-all duration-200"
+                  >
+                    {sub.label}
+                  </a>
+                ) : (
+                  <Link
+                    to={sub.to}
+                    onClick={() => setOpenDropdown(null)}
+                    className="block px-4 py-2 text-base-content hover:text-primary transition-all duration-200"
+                  >
+                    {sub.label}
+                  </Link>
+                )}
               </li>
             ))}
+
           </ul>
         )}
       </li>
@@ -144,7 +191,7 @@ const Header = ({ onToggleSwap }) => {
     >
       <div
         className={clsx(
-          "flex items-center justify-between w-full max-w-[1600px] mx-auto transition-all duration-500 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16",
+          "flex items-center justify-between w-full  mx-auto transition-all duration-500 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16",
           isScrolled ? "py-3" : "py-5"
         )}
       >

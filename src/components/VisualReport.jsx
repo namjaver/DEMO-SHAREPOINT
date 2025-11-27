@@ -113,31 +113,51 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
         {isDTG && filteredDTGReports && filteredDTGReports.length > 0 && (
           Object.entries(groupedDTGReports).map(([category, items]) => (
             <div key={category} className="relative border-2 border-primary/60 rounded-xl p-4 mb-10">
-              <div className="absolute -top-4 left-6 bg-primary text-primary-content px-4 py-1 rounded-md font-medium shadow-sm text-sm">
-                {category} ({items.length})
+              <div className="absolute -top-3 left-4 bg-primary text-primary-content px-2 py-0.5 rounded text-xs font-medium">
+                {category} - {items.length}
               </div>
 
-              <div className="grid gap-4 mt-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+              <div className="grid mt-2"
+                style={{
+                  gridTemplateColumns: "repeat(auto-fill, 120px)",
+                  gap: "8px"
+                }}>
                 {items.map(report => (
                   <motion.div
                     key={report.BaoCaoId}
-                    whileHover={{ y: -4 }}
-                    className="group cursor-pointer rounded-xl shadow hover:shadow-xl transition-all bg-base-200 relative overflow-hidden"
+                    whileHover={{ scale: 1.04 }}
+                    className="group cursor-pointer rounded-lg border border-base-300 bg-base-100 hover:border-primary hover:shadow-lg transition-all p-2 relative"
                     onClick={() => setSelectedReport({ link: report.Link, name: report.Ten })}
                   >
-                    <div className="absolute top-2 left-2 bg-primary text-primary-content text-[10px] px-2 py-0.5 rounded shadow-sm z-10">
-                      {report.BaoCaoId}
+                    {/* Header */}
+                    <div className="flex items-center justify-between text-[10px] mb-1">
+                      <span className="px-1.5 py-0.5 rounded bg-primary text-primary-content">
+                        {report.BaoCaoId}
+                      </span>
+                      <span className="text-base-content/50 truncate">
+                        {report.MaHienThi}
+                      </span>
                     </div>
-                    <div className={`h-1.5 w-full bg-gradient-to-r ${report.Color}`} />
-                    <div className="p-4 flex flex-col items-center text-center">
-                      <img src={"https://homebi.duytangroup.com/"+ report.Picture} className="max-h-[128px] mb-3 opacity-90 group-hover:opacity-100" />
-                      <h3 className="text-sm font-semibold leading-tight mb-1 line-clamp-2">{report.Ten}</h3>
-                      <div className="text-[11px] text-base-content/60 mb-2 italic">{report.NguoiKiemSoat}</div>
+
+                    {/* Icon / Image */}
+                    <div className="flex justify-center my-2">
+                      <img
+                        src={"https://homebi.duytangroup.com/" + report.Picture}
+                        className="w-28 h-28 object-contain opacity-80 group-hover:opacity-100"
+                      />
                     </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-1 rounded bg-base-300 w-fit text-center text-[10px] font-medium text-base-content/70">
-                      {report.MaHienThi}
+
+                    {/* Title */}
+                    <h3 className="text-[11px] font-semibold leading-snug text-center line-clamp-2">
+                      {report.Ten}
+                    </h3>
+
+                    {/* Footer (ẩn – chỉ hiện khi hover) */}
+                    <div className="mt-1 text-[10px] text-center text-base-content/50 opacity-0 group-hover:opacity-100 transition">
+                      {report.NguoiKiemSoat}
                     </div>
                   </motion.div>
+
                 ))}
               </div>
             </div>
@@ -151,7 +171,7 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                 Salesforce (3)
               </div>
 
-              <div className="grid gap-4 mt-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+              <div className="grid gap-4 mt-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))" }}>
                 <motion.div
                   whileHover={{ y: -4 }}
                   className="group cursor-pointer rounded-xl shadow hover:shadow-xl transition-all bg-base-200 relative overflow-hidden"
@@ -161,7 +181,7 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                     1
                   </div>
                   <div className="h-max p-4 flex flex-col items-center text-center">
-                    <img src={SALES} className="h-[300px] mb-3 opacity-90 group-hover:opacity-100" />
+                    <img src={SALES} className="h-[150px] mb-3 opacity-90 group-hover:opacity-100" />
                     <h3 className="text-sm font-semibold leading-tight mb-1 line-clamp-2">Báo Cáo Kinh Doanh</h3>
                     <div className="text-[11px] text-base-content/60 mb-2 italic">DTR</div>
                   </div>
@@ -178,7 +198,7 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                     2
                   </div>
                   <div className="p-4 flex flex-col items-center text-center">
-                    <img src={PURCHASE} className="h-[300px] mb-3 opacity-90 group-hover:opacity-100" />
+                    <img src={PURCHASE} className="h-[150px] mb-3 opacity-90 group-hover:opacity-100" />
                     <h3 className="text-sm font-semibold leading-tight mb-1 line-clamp-2">Báo Cáo Thu Mua</h3>
                     <div className="text-[11px] text-base-content/60 mb-2 italic">DTR</div>
                   </div>
@@ -195,7 +215,7 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                     3
                   </div>
                   <div className="p-4 flex flex-col items-center text-center">
-                    <img src={DELIVERY} className="h-[300px] mb-3 opacity-90 group-hover:opacity-100" />
+                    <img src={DELIVERY} className="h-[150px] mb-3 opacity-90 group-hover:opacity-100" />
                     <h3 className="text-sm font-semibold leading-tight mb-1 line-clamp-2">Báo Cáo Giao Hàng</h3>
                     <div className="text-[11px] text-base-content/60 mb-2 italic">DTR</div>
                   </div>
@@ -221,25 +241,40 @@ export default function ReportDashboard({ reports, isSalesForce = false, isDTG =
                 {category} ({items.length})
               </div>
 
-              <div className="grid gap-4 mt-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+              <div className="grid gap-4 mt-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))"}}>
                 {items.map(report => (
                   <motion.div
                     key={report.BaoCaoId}
-                    whileHover={{ y: -4 }}
-                    className="group cursor-pointer rounded-xl shadow hover:shadow-xl transition-all bg-base-200 relative overflow-hidden"
+                    whileHover={{ scale: 1.04 }}
+                    className="group cursor-pointer rounded-lg border border-base-300 bg-base-100 hover:border-primary hover:shadow-lg transition-all p-2 relative"
                     onClick={() => setSelectedReport({ link: report.Link, name: report.Ten })}
                   >
-                    <div className="absolute top-2 left-2 bg-primary text-primary-content text-[10px] px-2 py-0.5 rounded shadow-sm z-10">
-                      {report.BaoCaoId}
+                    {/* Header */}
+                    <div className="flex items-center justify-between text-[10px] mb-1">
+                      <span className="px-1.5 py-0.5 rounded bg-primary text-primary-content">
+                        {report.BaoCaoId}
+                      </span>
+                      <span className="text-base-content/50 truncate">
+                        {report.MaHienThi}
+                      </span>
                     </div>
-                    <div className={`h-1.5 w-full bg-gradient-to-r ${report.Color}`} />
-                    <div className="p-4 flex flex-col items-center text-center">
-                      <img src={"https://homebi.duytangroup.com/"+ report.Picture} className="w-28 h-28 mb-3 opacity-90 group-hover:opacity-100" />
-                      <h3 className="text-sm font-semibold leading-tight mb-1 line-clamp-2">{report.Ten}</h3>
-                      <div className="text-[11px] text-base-content/60 mb-2 italic">{report.NguoiKiemSoat}</div>
+
+                    {/* Icon / Image */}
+                    <div className="flex justify-center my-2">
+                      <img
+                        src={"https://homebi.duytangroup.com/" + report.Picture}
+                        className="w-28 h-28 object-contain opacity-80 group-hover:opacity-100"
+                      />
                     </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-1 rounded bg-base-300 w-fit text-center text-[10px] font-medium text-base-content/70">
-                      {report.MaHienThi}
+
+                    {/* Title */}
+                    <h3 className="text-[11px] font-semibold leading-snug text-center line-clamp-2">
+                      {report.Ten}
+                    </h3>
+
+                    {/* Footer (ẩn – chỉ hiện khi hover) */}
+                    <div className="mt-1 text-[10px] text-center text-base-content/50 opacity-0 group-hover:opacity-100 transition">
+                      {report.NguoiKiemSoat}
                     </div>
                   </motion.div>
                 ))}

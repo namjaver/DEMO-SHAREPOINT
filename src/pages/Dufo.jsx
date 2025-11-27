@@ -8,7 +8,7 @@ import Tabs from "../components/Tabs";
 import { reportDUFO } from "../data/constant";
 
 const Dufo = () => {
-    const tabs = ["Báo cáo trực quan", "Thuyết Minh"];
+    const tabs = ["BI", "Thuyết Minh"];
     const [activeTab, setActiveTab] = React.useState(tabs[0]);
 
     return (
@@ -17,7 +17,7 @@ const Dufo = () => {
                 <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
             </div>
             {activeTab === "Thuyết Minh" && <FilterBar />}
-            {activeTab === "Báo cáo trực quan" && (
+            {activeTab === "BI" && (
                 <div>
                     <VisualReports reports={reportDUFO} />
                 </div>

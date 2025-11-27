@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const NotFound = () => {
     return (
         <Layout className="mt-0">
-            <div className="flex flex-col items-center justify-center w-screen h-screen text-center bg-white">
+            <div className="flex flex-col items-center w-screen h-screen text-center bg-white">
                 <img src={NOTFOUND} alt="404" />
                 <AlertTriangle size={80} className="text-primary mb-4 animate-bounce" />
                 <p className="text-lg text-base-content/70 mb-6">

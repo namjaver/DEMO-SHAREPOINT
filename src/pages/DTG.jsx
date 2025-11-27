@@ -6,7 +6,7 @@ import Tabs from "../components/Tabs";
 import { reportsDTG } from "../data/constant";
 
 const DTG = () => {
-    const tabs = [ "Báo cáo trực quan", "Thuyết Minh"];
+    const tabs = [ "BI", "Thuyết Minh"];
     const [activeTab, setActiveTab] = React.useState(tabs[0]);
 
     return (
@@ -16,7 +16,7 @@ const DTG = () => {
             </div>
 
             {activeTab === "Thuyết Minh" && <FilterBar isDTG />}
-            {activeTab === "Báo cáo trực quan" && <VisualReports reports={reportsDTG}/>}
+            {activeTab === "BI" && <VisualReports reports={reportsDTG}/>}
         </Layout>
     );
 };
